@@ -28,31 +28,22 @@ public class Points {
      * @return 同じ座標を持つ点が存在すればtrue, そうでなければfalse。
      */
     public boolean pointExists(int x, int y) {
-        boolean f = false;
-        boolean ff = false;
+        boolean compareX = false;
+        boolean compareY = false;
 
-        for(int i=0 ; !(f && ff) && i < points.size() ; i++) {
+        for(int i=0 ; i < points.size() ; i++) {
             Point point = points.get(i);
             if (point.x == x) {
-                f = true;
+                compareX = true;
             }else{
-                f = false;
+                return compareX;
             }
 
             if (point.y == y) {
-                ff = true;
-            }else{
-                ff = false;
+                compareY = true;
             }
         }
-
-        boolean fff = false;
-        if (f && ff) {
-            fff = true;
-        }else{
-            fff = false;
-        }
-        return fff;
+        return compareY;
     }
 
     public static void main(String[] args) {
@@ -64,5 +55,23 @@ public class Points {
          * 5) 1)に指定した座標をもつ点が存在するか(pointsExists)聞く
          * 　　存在する場合、しない場合の両者ともに実行してみる
          */
+        Points points = new Points();
+        Point p = new Point(1, 3);
+        points.addPoint(p);
+
+        Point checker = new Point(1, 3);
+        if(points.pointExists(checker.x, checker.y)){
+            System.out.println("("+checker.x+", "+checker.y+") ..."+"Exist");
+        }else{
+            System.out.println("("+checker.x+", "+checker.y+") ..."+"Not Found");
+        }
+
+        checker.setLocation(4, 2);
+        if(points.pointExists(checker.x, checker.y)){
+            System.out.println("("+checker.x+", "+checker.y+") ..."+"Exist");
+        }else{
+            System.out.println("("+checker.x+", "+checker.y+") ..."+"Not Found");
+        }
+
     }
 }

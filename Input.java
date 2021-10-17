@@ -7,8 +7,9 @@ import java.io.InputStreamReader;
  */
 public class Input {
     BufferedReader reader;
-    String username;
-    String hostname;
+    static String username;
+    static String hostname;
+    public static final int LIMIT_MISTAKE = 3;
 
     public Input() {
         reader = new BufferedReader(new InputStreamReader(System.in));
@@ -17,39 +18,35 @@ public class Input {
     /**
      * 標準入力からホスト名、ユーザ名を読み込む。有効でない（長さ0の文字列）を入力した場合には3回リトライする。
      * 3回リトライしても有効な入力がなかった場合には、InvalidInputExceptionを投げる。
-     * @throws InvalidInputException
+     * @throwsInvalidInputException
      */
     public void processUserRequest() throws InvalidInputException {
-        boolean flag;
-
         // get hostname
         String hostname = null;
-        flag = true;
-        for (int i = 0 ; flag && i<3 ; i++) {
+        for (int i = 0 ; i<LIMIT_MISTAKE ; i++) {
             this.showPrompt("Host");
             hostname = this.getString();
             if (hostname != null && hostname.length() > 0) {
-                flag = false;
+                break;
             }
-        }
 
-        if (flag) {
-            throw new InvalidInputException();
+            if(i==LIMIT_MISTAKE-1){
+                throw new InvalidInputException();
+            }
         }
 
         // get hostname
         String username = null;
-        flag = true;
-        for (int i = 0 ; flag && i<3 ; i++) {
+        for (int i = 0 ; i<LIMIT_MISTAKE ; i++) {
             this.showPrompt("User");
             username = this.getString();
             if (username != null && username.length() > 0) {
-                flag = false;
+                break;
             }
-        }
 
-        if (flag) {
-            throw new InvalidInputException();
+            if(i==LIMIT_MISTAKE-1){
+                throw new InvalidInputException();
+            }
         }
 
         this.hostname = hostname;
@@ -83,6 +80,14 @@ public class Input {
          * 2) processUserRequest()を呼び出す。
          *    なおInvalidInputExceptionが投げられる可能性があることに留意。
          */
+        
+        Input input = new Input();
+        try {
+            input.processUserRequest();
+        } catch (InvalidInputException e) {
+            e.printStackTrace();
+        }
 
+        System.out.println("ホスト名は" + hostname + "でユーザー名は" + username + "である。");
     }
 }

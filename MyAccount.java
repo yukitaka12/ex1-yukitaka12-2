@@ -17,20 +17,24 @@ public class MyAccount {
         // 預入額は0や負の数ではない
         // 残高は預入額合計 - 引き出し額の合計
         // 残高は負ではない
+        assert delta > 0;
         this.deposit += delta;
         this.balance += delta;
+        assert this.balance >= 0;
     }
 
     /**
      * 引き出す
      * @param delta 引き出し額
      */
-    public void withdraw(long delta) {
+    private void withdraw(long delta) {
         // 預入額は0や負の数ではない
         // 残高は預入額合計 - 引き出し額の合計
         // 残高は負ではない
+        assert delta > 0;
         this.withdrawal += delta;
         this.balance -= delta;
+        assert this.balance >= 0;
     }
 
     /**
@@ -45,5 +49,12 @@ public class MyAccount {
         /* ここにテストケースを書き込む
          * いくらか預入をして、引き出す。預け入れた以上に引き出した場合にはどうなるか？
          */
+
+        MyAccount myAccount = new MyAccount();
+
+        myAccount.deposit(5000);
+        myAccount.withdraw(10000);
+
+        System.out.println("残りの残高は" + myAccount.getBalance() + "である。");
     }
 }
